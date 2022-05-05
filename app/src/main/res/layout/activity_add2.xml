@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddActivity2">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="9dp"
+        android:text="@string/good_type"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <RadioButton
+
+            android:id="@+id/Furniture"
+            android:text="Furniture"
+            style="@style/radioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/Drygoods"
+            android:text="Dry goods"
+            style="@style/radioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/Food"
+            android:text="Food"
+            style="@style/radioButtonStyle" />
+
+        <RadioButton
+            android:id="@+id/Building"
+            android:text="Building material"
+            style="@style/radioButtonStyle" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/goodText"
+        android:layout_width="377dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:text="Other"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        android:background="@drawable/edit_text_border"/>
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/weight_and_dimension"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goodText" />
+
+    <EditText
+        android:id="@+id/weightText"
+        android:layout_width="152dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/weight"
+        android:inputType="textPersonName"
+        android:textAlignment="gravity"
+        android:background="@drawable/edit_text_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <EditText
+        android:id="@+id/widthText"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:hint="Width"
+        android:background="@drawable/edit_text_border"
+        app:layout_constraintStart_toEndOf="@+id/weightText"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <EditText
+        android:id="@+id/lengthText"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:hint="Length"
+        android:background="@drawable/edit_text_border"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weightText" />
+
+    <EditText
+        android:id="@+id/heightText"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="19dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:hint="Height"
+        android:background="@drawable/edit_text_border"
+        app:layout_constraintStart_toEndOf="@+id/lengthText"
+        app:layout_constraintTop_toBottomOf="@+id/widthText" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Vehicle type:"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lengthText" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="326dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+        <RadioButton
+
+            android:id="@+id/truck"
+            style="@style/radioButtonStyle"
+            android:text="Truck" />
+
+        <RadioButton
+            android:id="@+id/van"
+            style="@style/radioButtonStyle"
+            android:text="Van" />
+
+        <RadioButton
+            android:id="@+id/refrigeratedTruck"
+            style="@style/radioButtonStyle"
+            android:text="Refrigerated truck" />
+
+        <RadioButton
+            android:id="@+id/miniTruck"
+            style="@style/radioButtonStyle"
+            android:text="Mini-truck" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/vehicleText"
+        android:layout_width="377dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        android:text="Other"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2"
+        android:background="@drawable/edit_text_border"/>
+
+    <Button
+        android:id="@+id/orderBtn"
+        android:layout_width="252dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/button_text_border"
+        android:text="Create order"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vehicleText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

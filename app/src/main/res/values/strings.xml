@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Truck Sharing App</string>
+    <string name="password">password:</string>
+    <string name="username">username:</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+
+    <string name="add_image">Add image</string>
+    <string name="create_account">Create account</string>
+    <string name="pass_confirm">Confirm password:</string>
+    <string name="phone">Phone number</string>
+    <string name="delivery">New delivery</string>
+    <string name="receiver_name">Receiver name:</string>
+    <string name="pick_up_date">Pick up date:</string>
+    <string name="pick_up_time">Pick up time:</string>
+    <string name="pick_up_location">Pick up location:</string>
+    <string name="good_type">Good type:</string>
+    <string name="weight_and_dimension">Weight and dimension:</string>
+    <string name="weight">Weight</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="good_description">Good Description</string>
+</resources>
