@@ -82,4 +82,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return fullname;
     }
+
+    public String fetchphone (String username) {
+        String phonenum;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(Util.TABLE_NAME, null, Util.USERNAME + "=?" , new String[] {username}, null, null, null);
+        cursor.moveToFirst();
+        phonenum = cursor.getString(cursor.getColumnIndex(Util.PHONE));
+        db.close();
+        return phonenum;
+    }
 }

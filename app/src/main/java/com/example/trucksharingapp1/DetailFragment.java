@@ -1,8 +1,8 @@
 package com.example.trucksharingapp1;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link DetailFragment#newInstance} factory method to
@@ -28,7 +26,7 @@ public class DetailFragment extends Fragment {
     TextView userdetailView, timedetailView, receivedetailView, dropoffView;
     TextView gooddesView, gooddetailView, vehicledetailView;
     TextView weightdetailView, widthdetailView, lengthdetailView, heightdetailView;
-    Button callBtn;
+    Button getBtn;
     byte[] imagearray;
     String username, time, receivername, goodtype, vehicletype, weight, width, length, height;
 
@@ -93,7 +91,16 @@ public class DetailFragment extends Fragment {
         widthdetailView = view.findViewById(R.id.widthdetailView);
         lengthdetailView = view.findViewById(R.id.lengthdetailView);
         heightdetailView = view.findViewById(R.id.heightdetailView);
-        callBtn = view.findViewById(R.id.callBtn);
+        getBtn = view.findViewById(R.id.getBtn);
+
+        getBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent mapIntent = new Intent(getActivity(), MapActivity.class);
+                mapIntent.putExtra("username",username);
+                startActivity(mapIntent);
+            }
+        });
 
         //Get information
         Bundle bundle = this.getArguments();

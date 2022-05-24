@@ -160,16 +160,16 @@
         app:layout_constraintTop_toBottomOf="@+id/widthdetailView" />
 
     <Button
-        android:id="@+id/callBtn"
+        android:id="@+id/getBtn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="50dp"
-        android:text="Call driver"
+        android:background="@drawable/button_text_border"
+        android:text="@string/get_estimate"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lengthdetailView"
-        android:background="@drawable/button_text_border"/>
+        app:layout_constraintTop_toBottomOf="@+id/lengthdetailView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
