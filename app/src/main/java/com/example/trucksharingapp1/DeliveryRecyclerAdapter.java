@@ -19,11 +19,13 @@ import com.example.trucksharingapp1.model.Order;
 
 import java.util.List;
 
+//Recycler View for list of orders
 public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecyclerAdapter.DeliveryAdapterHolder> {
 
     private List<Order> orderList;
     private Context context;
     private OnRowClickListener listener;
+
 
     public DeliveryRecyclerAdapter(List<Order> orderList, Context context, OnRowClickListener clickListener) {
         this.orderList = orderList;
@@ -45,10 +47,13 @@ public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecycl
 
     @Override
     public void onBindViewHolder(@NonNull DeliveryRecyclerAdapter.DeliveryAdapterHolder holder, int position) {
+        // set the Texts
         Order order = orderList.get(position);
         holder.vehicleText.setText(order.getVehicletype());
         holder.goodText.setText(order.getGoodtype());
         holder.timeText.setText(order.getTime());
+
+        // Get image byte array then display by converting to bitmap
         byte[] image = order.getImage();
         if (image != null)
         {
@@ -75,12 +80,14 @@ public class DeliveryRecyclerAdapter extends RecyclerView.Adapter<DeliveryRecycl
         public DeliveryAdapterHolder(@NonNull View itemView, OnRowClickListener onRowClickListener) {
             super(itemView);
 
+            //Initialize
             userImage = itemView.findViewById(R.id.imageView);
             vehicleText = itemView.findViewById(R.id.vehicleView);
             goodText = itemView.findViewById(R.id.goodView);
             timeText = itemView.findViewById(R.id.timeView);
             imageButton = itemView.findViewById(R.id.imageButton);
 
+            //Share button function
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -2,6 +2,7 @@ package com.example.trucksharingapp1.util;
 
 public class Util {
 
+    //Utilities used for user database
     public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "user_db";
     public static final String TABLE_NAME = "users";
@@ -13,6 +14,7 @@ public class Util {
     public static final String PHONE = "phone";
     public static final String IMAGE = "image";
 
+    //Utilities used for order database
     public static final int DATABASE_VERSION_2 = 4;
     public static final String DATABASE_NAME_2 = "order_db";
     public static final String TABLE_NAME_2 = "orders";

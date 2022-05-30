@@ -15,6 +15,8 @@ import com.example.trucksharingapp1.util.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//Database use to store the order information
 public class DatabaseHelper2 extends SQLiteOpenHelper {
 
     public DatabaseHelper2(@Nullable Context context) {
@@ -60,6 +62,7 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
         return newRowId;
     }
 
+    //Fetch all orders in database
     public List<Order> fetchAllOrders () {
         List<Order> orderList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -90,6 +93,7 @@ public class DatabaseHelper2 extends SQLiteOpenHelper {
         return orderList;
     }
 
+    //Fetch only the orders using the username
     public List<Order> fetchSelectedOrders (String username) {
         List<Order> orderList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

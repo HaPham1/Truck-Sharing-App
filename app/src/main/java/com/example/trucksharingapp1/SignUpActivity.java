@@ -46,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        //Initialize
         addImage = findViewById(R.id.addImage);
         imageRequest = findViewById(R.id.textView);
         fullnameText = findViewById(R.id.fullnameText);
@@ -55,8 +56,10 @@ public class SignUpActivity extends AppCompatActivity {
         phonenumText = findViewById(R.id.phoneText);
         createBtn = findViewById(R.id.createButton);
 
+        //Create database
         db = new DatabaseHelper(this);
 
+        //Create new user in database if password matches.
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +89,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        //function to select image
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    //Function to request permission
     private void requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             new AlertDialog.Builder(this).setTitle(("Permission needed")).setMessage("This permission is needed to add image")
@@ -126,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    //Depend on result of permission, display toast
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == STORAGE_PERMISSON_CODE) {
@@ -139,6 +145,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    //Handle result after selecting image successfully, set the imageview
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -154,6 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
+    //Get byte array from bitmap
     private byte[] imageViewToByte(ImageView image) {
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

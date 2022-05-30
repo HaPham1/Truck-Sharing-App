@@ -1,5 +1,6 @@
 package com.example.trucksharingapp1.model;
 
+//Database model for the orders
 public class Order {
     private int order_id;
     private String username;

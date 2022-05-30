@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import com.example.trucksharingapp1.model.User;
 import com.example.trucksharingapp1.util.Util;
 
+
+//Database use to store the user information
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
@@ -36,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
+    //Function to inser User in database
     public long insertUser (User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -49,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newRowId;
     }
 
+    //Function to check if the user with certain username, password is in the database
     public boolean fetchUser (String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(Util.TABLE_NAME, new String[]{Util.USER_ID}, Util.USERNAME + "=? and " + Util.PASSWORD + "=?" , new String[] {username, password}, null, null, null);
@@ -63,6 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    //Function to get the image from the database using username
     public byte[] fetchImage (String username) {
         byte[] image;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -73,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return image;
     }
 
+    //Function to get fullname from the database using username
     public String fetchfullname (String username) {
         String fullname;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -83,6 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return fullname;
     }
 
+    //Function to get phone number from the database using username
     public String fetchphone (String username) {
         String phonenum;
         SQLiteDatabase db = this.getReadableDatabase();

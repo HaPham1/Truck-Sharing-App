@@ -24,4 +24,6 @@
     <string name="get_estimate">Get estimate</string>
     <string name="call_driver">Call driver</string>
     <string name="book_now">Book now</string>
+    <string name="how_do_you_feel_about_us">How do you feel about us?</string>
+    <string name="submit">Submit</string>
 </resources>

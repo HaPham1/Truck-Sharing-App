@@ -1,11 +1,17 @@
 package com.example.trucksharingapp1;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +35,8 @@ public class DetailFragment extends Fragment {
     Button getBtn;
     byte[] imagearray;
     String username, time, receivername, goodtype, vehicletype, weight, width, length, height;
+    OneTimeWorkRequest backgroundWorkRequest;
+    Boolean state;
 
 
 
@@ -79,6 +87,7 @@ public class DetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         requireActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
+        //Initialize
         image = view.findViewById(R.id.imageView2);
         userdetailView = view.findViewById(R.id.userdetailView);
         timedetailView = view.findViewById(R.id.timedetailView);
@@ -93,14 +102,30 @@ public class DetailFragment extends Fragment {
         heightdetailView = view.findViewById(R.id.heightdetailView);
         getBtn = view.findViewById(R.id.getBtn);
 
+        //Create background work request
+        backgroundWorkRequest = new OneTimeWorkRequest.Builder(BackgroundWorker.class).addTag("onecheck").build();
+
+        // Go to map activity button
         getBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mapIntent = new Intent(getActivity(), MapActivity.class);
-                mapIntent.putExtra("username",username);
-                startActivity(mapIntent);
-            }
-        });
+                                      @Override
+                                      public void onClick(View view) {
+                                          WorkManager.getInstance(getActivity().getApplicationContext()).beginUniqueWork("onecheck", ExistingWorkPolicy.REPLACE, backgroundWorkRequest).enqueue();
+                                          WorkManager.getInstance(getActivity().getApplicationContext()).getWorkInfoByIdLiveData(backgroundWorkRequest.getId())
+                                                  .observe(getActivity(), info -> {
+                                                      if (info != null && info.getState().isFinished()) {
+                                                          state = info.getOutputData().getBoolean("state",
+                                                                  false);
+                                                          if (state) {
+                                                              Intent mapIntent = new Intent(getActivity(), MapActivity.class);
+                                                              mapIntent.putExtra("username", username);
+                                                              startActivity(mapIntent);
+                                                          } else {
+                                                              openDialog();
+                                                          }
+                                                      }
+                                                  });
+                                      }
+                                  });
 
         //Get information
         Bundle bundle = this.getArguments();
@@ -125,6 +150,7 @@ public class DetailFragment extends Fragment {
             image.setImageResource(R.drawable.ic_launcher_background);
         }
 
+        //Set texts
         userdetailView.setText("From sender " + username);
         timedetailView.setText("Pick up time " + time);
         receivedetailView.setText("To receiver " + receivername);
@@ -141,4 +167,20 @@ public class DetailFragment extends Fragment {
 
         return view;
     }
+
+    public void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Reminder")
+                .setMessage("Your Application is currently offline. Most functions of the app won't work properly" +
+                        " without access to the internet. Please try again later.")
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        builder.show();
+
+    }
+
 }

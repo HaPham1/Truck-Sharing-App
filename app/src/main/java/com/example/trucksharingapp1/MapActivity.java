@@ -106,8 +106,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private PaymentsClient paymentsClient;
 
 
-    private JSONArray garmentList;
-    private JSONObject selectedGarment;
 
 
     @Override
@@ -116,15 +114,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         binding = ActivityMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //Get username from intent
         Intent getIntent = getIntent();
         username = getIntent.getStringExtra("username");
+
+        //get user database
         db = new DatabaseHelper(this);
 
-
+        //Initialize mapview
         mapView = findViewById(R.id.mapView);
         mapView.getMapAsync(this);
         mapView.onCreate(savedInstanceState);
 
+        //Initialize
         pickupText = findViewById(R.id.pickupText);
         destinationText = findViewById(R.id.destinationText);
         fareView = findViewById(R.id.fareView);
@@ -132,6 +134,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         orderBtn = findViewById(R.id.button);
         callBtn = findViewById(R.id.button2);
 
+        //Button for call function using phonenumber in database
         callBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,12 +146,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
 
+        //Button to request Google Pay Payments
         orderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requestPayment(v);
+                try {
+                    requestPayment(v);
+                }
+                catch (RuntimeException e) {
+                    Toast.makeText(getApplicationContext(), "Please fill in Locations and get an estimated fare before booking!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
 
         //Test Google Pay
         Wallet.WalletOptions walletOptions = new Wallet.WalletOptions.Builder().setEnvironment(WalletConstants.ENVIRONMENT_TEST).build();
@@ -159,12 +169,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-
-
-
-        //Completed code for map
-
-
+        //Code for edit text auto complete for Places API
         Places.initialize(getApplicationContext(), API_KEY);
 
         pickupText.setFocusable(false);
@@ -190,13 +195,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+    //Interface for map view
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-
     }
-
-
 
     @Override
     protected void onStart() {
@@ -240,6 +243,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapView.onLowMemory();
     }
 
+    //Handle result for Places API
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -249,6 +253,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 flag++;
                 pickupText.setText(place.getAddress());
                 latLng1 = place.getLatLng();
+
+                //Prepare source as String format to send with JSON request
                 String sSource = String.valueOf(place.getLatLng());
                 sSource = sSource.replaceAll("lat/lng", "");
                 sSource = sSource.replace(":", "");
@@ -261,6 +267,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 flag++;
                 destinationText.setText(place.getAddress());
                 latLng2 = place.getLatLng();
+
+                //Prepare destination as String format to send with JSON request
                 String sDestination = String.valueOf(place.getLatLng());
                 sDestination = sDestination.replaceAll("lat/lng", "");
                 sDestination = sDestination.replace(":", "");
@@ -273,13 +281,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 direction();
             }
         }
+        //Handle result for Google Pay API
         else if (requestCode == LOAD_PAYMENT_DATA_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 PaymentData paymentData = PaymentData.getFromIntent(data);
                 handlePaymentSuccess(paymentData);
             }
             else {
-                Toast.makeText(MapActivity.this, "Error with the Google Pay", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapActivity.this, "Transaction Cancelled", Toast.LENGTH_SHORT).show();
             }
         }
         else{
@@ -288,6 +297,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    //Display Price and Duration
     private void distance(String distance, String duration) {
 
         fareView.setText("Approx. Fare: $" + String.valueOf(Double.valueOf(distance) * 0.55) );
@@ -296,8 +306,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-
+    // Using google map Directions API to draw Polylines and calculate Distance and duration
     private void direction(){
+        //Use volley to send Json request
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         String url = Uri.parse("https://maps.googleapis.com/maps/api/directions/json")
                 .buildUpon()
@@ -308,6 +319,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .toString();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
+            //Handle JSON response to get routes, legs, steps, points, polyline
             public void onResponse(JSONObject response) {
                 try {
                     String status = response.getString("status");
@@ -342,15 +354,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     }
                                 }
                             }
+                            //Polyline format, add all points into it then change color
                             polylineOptions.addAll(points);
                             polylineOptions.width(10);
                             polylineOptions.color(ContextCompat.getColor(MapActivity.this, R.color.purple_500));
                             polylineOptions.geodesic(true);
 
-
+                            //Logging for testing duration and distance
                             Log.d("distance", distance);
                             Log.d("duration", duration);
                         }
+
+                        //Clear map for each time, then draw polyline and add markers, change map zoom
                         mMap.clear();
                         mMap.addPolyline(polylineOptions);
                         mMap.addMarker(new MarkerOptions().position(new LatLng(latLng1.latitude, latLng1.longitude)).title("Marker 1"));
@@ -373,10 +388,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
+        //Set retry policy
         RetryPolicy retryPolicy = new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjectRequest.setRetryPolicy(retryPolicy);
         requestQueue.add(jsonObjectRequest);
     }
+
+    //Function to decode polyline from the response
     public List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<LatLng>();
@@ -408,7 +426,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return poly;
 
     }
-    //Test for google pay
+    //Request payment using Google Pay
     public void requestPayment(View view) {
 
 
@@ -469,6 +487,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             throw new RuntimeException("The selected garment cannot be parsed from the list of elements");
         }
     }
+
+    //Send error to log
     private void handleError(int statusCode) {
         Log.e("loadPaymentData failed", String.format("Error code: %d", statusCode));
     }

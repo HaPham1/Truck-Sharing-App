@@ -28,8 +28,8 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     DeliveryRecyclerAdapter deliveryRecyclerAdapter;
     List<Order> orderList =new ArrayList<>();
     DatabaseHelper2 db2;
-
     LinearLayoutManager layoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +43,18 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         db2 = new DatabaseHelper2(HomeActivity.this);
         orderList = db2.fetchAllOrders();
 
-        //Recycler View
+        //Delivery Recycler View set up
         truckRecyclerView = findViewById(R.id.truckRecyclerView);
         deliveryRecyclerAdapter = new DeliveryRecyclerAdapter(orderList, this, this);
         truckRecyclerView.setAdapter(deliveryRecyclerAdapter);
 
-        layoutManager =new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
         truckRecyclerView.setLayoutManager(layoutManager);
         layoutManager.setOrientation(truckRecyclerView.VERTICAL);
 
 
 
-
+        //Button to create orders
         deliveryBtn = findViewById(R.id.deliveryBtn);
         deliveryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,11 +64,9 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 startActivity(addIntent);
             }
         });
-
-
-
     }
 
+    //Popup menu
     public void showPopup(View view) {
         PopupMenu popup = new PopupMenu(this, view);
         popup.setOnMenuItemClickListener(this);
@@ -76,6 +74,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popup.show();
     }
 
+    //Handle click on menu items
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -97,6 +96,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
+    //Handle detail fragment for each item in RecyclerView
     @Override
     public void onItemClick(int position) {
         Fragment fragment;
@@ -111,6 +111,7 @@ public class HomeActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     }
 
+    //Send data to display in Fragment
     public void sendDatatoFragment(int i, Fragment fragment) {
         //Send information
         Bundle bundle = new Bundle();
